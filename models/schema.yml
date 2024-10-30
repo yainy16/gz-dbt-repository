@@ -1,0 +1,56 @@
+version: 2
+sources:
+  - name: gz_raw_data
+    tables:
+      - name: raw_gz_sales
+        description: sales of Greenweez / we have one row per product_id found in each orders_id
+        columns:
+          - name: date_date
+            description: date of purchase
+          - name: orders_id
+            description: all orders id
+          - name: pdt_id
+            description: all products id
+          - name: revenue
+            description: all revenue
+          - name: quantity
+            description: the quantity
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns: ['orders_id', 'pdt_id']
+      - name: raw_gz_product
+        description: the products of Greenweez
+        columns:
+          - name: products_id
+            description: the products id
+            tests:
+              - unique
+              - not_null
+          - name: purchSE_PRICE
+            description: the purchase price
+      - name: raw_gz_ship
+        description: the ship
+        columns:
+           - name: orders_id
+             description: the orders
+             tests:
+               - unique
+               - not_null
+           - name: shipping fee
+             description: the shipping fee
+           - name: logCost
+             description: the log cost
+           - name: ship_cost
+             description: the ship cost
+
+
+
+
+
+
+
+
+
+
+
+
