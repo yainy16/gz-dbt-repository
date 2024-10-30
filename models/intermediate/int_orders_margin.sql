@@ -1,5 +1,10 @@
-SELECT s.*,
-    p.* EXCEPT (products_id)
-FROM  AS {{ ref('stg_gz_raw_data__raw_gz_sales') }} s
-LEFT JOIN {{ ref('stg_gz_raw_data__raw_gz_product') }} AS p
-ON s.products_id = p.products_id
+SELECT
+     orders_id,
+     date_date,
+     ROUND(SUM(revenue),2) as revenue,
+     ROUND(SUM(quantity),2) as quantity,
+     ROUND(SUM(purchase_cost),2) as purchase_cost,
+     ROUND(SUM(margin),2) as margin
+ FROM {{ ref('int_sales_margin') }}
+ GROUP BY orders_id,date_date
+ ORDER BY orders_id DESC
